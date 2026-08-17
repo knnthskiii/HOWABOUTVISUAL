@@ -238,10 +238,26 @@
   .tab-panel{display:none;}
   .tab-panel.active{display:block;}
 
-  .video-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hairline);
+  .carousel{position:relative;display:flex;align-items:center;gap:14px;}
+  .car-viewport{
+    overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    scroll-padding-left:1px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
   }
-  .video-card{background:var(--black);}
+  .car-viewport::-webkit-scrollbar{display:none;}
+  .car-track{
+    display:flex;gap:1px;background:var(--hairline);
+    width:max-content;
+  }
+  .video-card{
+    background:var(--black);
+    flex:0 0 auto;
+    width:380px;
+    scroll-snap-align:start;
+  }
   .video-frame{position:relative;width:100%;padding-top:56.25%;background:var(--near-black);}
   .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
   .video-label{
@@ -249,8 +265,33 @@
     font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--gray);
   }
 
+  .car-arrow{
+    flex:0 0 auto;
+    width:42px;height:42px;border-radius:50%;
+    border:1px solid var(--hairline);background:var(--black);color:var(--white);
+    font-family:var(--mono);font-size:18px;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:.2s ease;
+  }
+  .car-arrow:hover{background:var(--white);color:var(--black);border-color:var(--white);}
+  .car-arrow:disabled{opacity:.25;cursor:default;background:var(--black);color:var(--white);border-color:var(--hairline);}
+
+  .car-dots{
+    display:flex;gap:8px;justify-content:center;margin-top:22px;
+  }
+  .car-dot{
+    width:6px;height:6px;border-radius:50%;background:var(--hairline);
+    border:none;padding:0;cursor:pointer;transition:.2s ease;
+  }
+  .car-dot.active{background:var(--white);width:20px;border-radius:3px;}
+
+  .car-count{
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--gray);
+    margin-top:14px;text-align:right;
+  }
+
   .cover-link{
-    grid-column:1 / -1;padding:18px 16px;
+    margin-top:1px;padding:18px 16px;background:var(--black);border:1px solid var(--hairline);
     font-family:var(--mono);font-size:12px;color:var(--off-white);
     display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
   }
@@ -303,14 +344,25 @@
     nav ul li a{display:block;padding:18px 26px;}
     .menu-btn{display:flex;}
     .cards{grid-template-columns:1fr;}
-    .video-grid{grid-template-columns:1fr;}
     .equip-grid{grid-template-columns:1fr;}
+    .video-card{width:82vw;}
+    .car-arrow{width:34px;height:34px;font-size:15px;}
+    .carousel{gap:8px;}
     .sl-name{width:auto;}
     .shotlist tbody td{display:block;width:100% !important;padding:4px 0;}
     .sl-price{text-align:left;}
     .shotlist tbody tr{display:block;padding:18px 0;border-bottom:1px solid var(--hairline);}
     .shotlist tbody tr td{border-bottom:none;}
     .shotlist thead{display:none;}
+  }
+
+  @media (min-width:861px) and (max-width:1180px){
+    .video-card{width:320px;}
+  }
+
+  @media (max-width:420px){
+    .video-card{width:88vw;}
+    .car-arrow{display:none;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -481,16 +533,37 @@
     </div>
 
     <div class="tab-panel active" id="panel-recent">
-      <div class="video-grid" id="grid-recent"></div>
+      <div class="carousel" data-carousel="recent">
+        <button class="car-arrow prev" aria-label="Previous video">‹</button>
+        <div class="car-viewport"><div class="car-track" id="grid-recent"></div></div>
+        <button class="car-arrow next" aria-label="Next video">›</button>
+      </div>
+      <div class="car-dots" id="dots-recent"></div>
     </div>
     <div class="tab-panel" id="panel-directed">
-      <div class="video-grid" id="grid-directed"></div>
+      <div class="carousel" data-carousel="directed">
+        <button class="car-arrow prev" aria-label="Previous video">‹</button>
+        <div class="car-viewport"><div class="car-track" id="grid-directed"></div></div>
+        <button class="car-arrow next" aria-label="Next video">›</button>
+      </div>
+      <div class="car-dots" id="dots-directed"></div>
     </div>
     <div class="tab-panel" id="panel-lyric">
-      <div class="video-grid" id="grid-lyric"></div>
+      <div class="carousel" data-carousel="lyric">
+        <button class="car-arrow prev" aria-label="Previous video">‹</button>
+        <div class="car-viewport"><div class="car-track" id="grid-lyric"></div></div>
+        <button class="car-arrow next" aria-label="Next video">›</button>
+      </div>
+      <div class="car-dots" id="dots-lyric"></div>
     </div>
     <div class="tab-panel" id="panel-visual">
-      <div class="video-grid" id="grid-visual"></div>
+      <div class="carousel" data-carousel="visual">
+        <button class="car-arrow prev" aria-label="Previous video">‹</button>
+        <div class="car-viewport"><div class="car-track" id="grid-visual"></div></div>
+        <button class="car-arrow next" aria-label="Next video">›</button>
+      </div>
+      <div class="car-dots" id="dots-visual"></div>
+      <div id="cover-link-slot"></div>
     </div>
   </div>
 </section>
@@ -570,12 +643,14 @@
   navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navList.classList.remove('open')));
 
   // tabs
+  const carouselUpdaters = {};
   document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
       document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+      requestAnimationFrame(()=>{ if(carouselUpdaters[btn.dataset.tab]) carouselUpdaters[btn.dataset.tab](); });
     });
   });
 
@@ -624,14 +699,81 @@
   buildGrid('grid-lyric', videoSets.lyric);
   buildGrid('grid-visual', videoSets.visual);
 
-  // extra: OG CRY spotify link appended to visualizers panel
+  // extra: OG CRY spotify link appended below the visualizers carousel
   const coverRow = document.createElement('div');
-  coverRow.className = 'video-grid';
   coverRow.innerHTML = `<div class="cover-link">
     <span>OG CRY — Westside Love — Album Cover Art + Canvas Visualizer</span>
     <a href="https://open.spotify.com/album/2bsssJsTCGetpd8EtZHw2k" target="_blank" rel="noopener">Listen on Spotify →</a>
   </div>`;
-  document.getElementById('panel-visual').appendChild(coverRow);
+  document.getElementById('cover-link-slot').appendChild(coverRow);
+
+  // ---- carousel behavior (arrows, dots, drag-scroll snap) ----
+  function initCarousel(key){
+    const root = document.querySelector(`[data-carousel="${key}"]`);
+    if(!root) return;
+    const viewport = root.querySelector('.car-viewport');
+    const track = root.querySelector('.car-track');
+    const prevBtn = root.querySelector('.car-arrow.prev');
+    const nextBtn = root.querySelector('.car-arrow.next');
+    const dotsWrap = document.getElementById('dots-'+key);
+    const cards = Array.from(track.children);
+    if(cards.length === 0) return;
+
+    if(cards.length > 1){
+      cards.forEach((_, i)=>{
+        const dot = document.createElement('button');
+        dot.className = 'car-dot' + (i===0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to video ${i+1}`);
+        dot.addEventListener('click', ()=>{
+          cards[i].scrollIntoView({behavior:'smooth', inline:'start', block:'nearest'});
+        });
+        dotsWrap.appendChild(dot);
+      });
+    } else {
+      root.querySelectorAll('.car-arrow').forEach(b=>b.style.display='none');
+    }
+    const dots = Array.from(dotsWrap.children);
+
+    function cardStep(){
+      const style = getComputedStyle(track);
+      const gap = parseFloat(style.columnGap || style.gap || 0);
+      return cards[0].getBoundingClientRect().width + gap;
+    }
+
+    function updateArrows(){
+      const max = viewport.scrollWidth - viewport.clientWidth - 2;
+      prevBtn.disabled = viewport.scrollLeft <= 2;
+      nextBtn.disabled = viewport.scrollLeft >= max;
+    }
+
+    function updateActiveDot(){
+      if(dots.length === 0) return;
+      const idx = Math.round(viewport.scrollLeft / cardStep());
+      dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+    }
+
+    prevBtn.addEventListener('click', ()=> viewport.scrollBy({left:-cardStep(), behavior:'smooth'}));
+    nextBtn.addEventListener('click', ()=> viewport.scrollBy({left:cardStep(), behavior:'smooth'}));
+
+    let ticking = false;
+    viewport.addEventListener('scroll', ()=>{
+      if(!ticking){
+        window.requestAnimationFrame(()=>{
+          updateArrows();
+          updateActiveDot();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    window.addEventListener('resize', ()=>{ updateArrows(); updateActiveDot(); });
+    updateArrows();
+    updateActiveDot();
+    carouselUpdaters[key] = ()=>{ updateArrows(); updateActiveDot(); };
+  }
+
+  ['recent','directed','lyric','visual'].forEach(initCarousel);
 </script>
 
 </body>
