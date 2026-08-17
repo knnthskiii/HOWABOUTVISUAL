@@ -286,28 +286,24 @@
   }
   .foot-terms{margin-top:26px;font-size:10.5px;color:var(--gray);line-height:1.8;font-family:var(--mono);max-width:820px;}
 
-  .contact-form{max-width:640px;margin-top:34px;padding-bottom:40px;border-bottom:1px solid var(--hairline);}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-  .form-field{margin-bottom:20px;display:flex;flex-direction:column;}
-  .form-field label{
-    font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--gray);
-    margin-bottom:8px;text-transform:uppercase;
+  .connect-grid{
+    margin-top:34px;padding-bottom:40px;border-bottom:1px solid var(--hairline);
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hairline);
   }
-  .form-field input,.form-field select,.form-field textarea{
-    background:var(--near-black);border:1px solid var(--hairline);color:var(--white);
-    font-family:var(--body);font-size:14px;padding:12px 14px;
-    outline:none;transition:border-color .2s ease;resize:vertical;
+  .connect-card{
+    background:var(--black);padding:24px 22px;
+    display:flex;flex-direction:column;gap:8px;
+    transition:background .2s ease,color .2s ease;
   }
-  .form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--white);}
-  .form-field select{appearance:none;-webkit-appearance:none;cursor:pointer;}
-  .contact-form .foot-btn{
-    background:none;cursor:pointer;font-size:12px;
+  .connect-card:hover{background:var(--white);color:var(--black);}
+  .connect-label{
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gray);text-transform:uppercase;
   }
-  .form-note{
-    margin-top:16px;font-family:var(--mono);font-size:10px;color:var(--gray);letter-spacing:.03em;
-  }
-  @media (max-width:600px){
-    .form-row{grid-template-columns:1fr;}
+  .connect-card:hover .connect-label{color:var(--black);opacity:.6;}
+  .connect-handle{font-family:var(--display);font-size:18px;letter-spacing:.02em;word-break:break-word;}
+
+  @media (max-width:700px){
+    .connect-grid{grid-template-columns:1fr;}
   }
 
   /* ---------- responsive ---------- */
@@ -532,37 +528,32 @@
       <div class="foot-cta">Got a track that needs a visual identity?</div>
     </div>
 
-    <form class="contact-form" id="contactForm">
-      <div class="form-row">
-        <div class="form-field">
-          <label for="f-name">Name</label>
-          <input type="text" id="f-name" name="name" required>
-        </div>
-        <div class="form-field">
-          <label for="f-email">Email</label>
-          <input type="email" id="f-email" name="email" required>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-field">
-          <label for="f-package">Interested in</label>
-          <select id="f-package" name="package">
-            <option>Music Video — Shoot + Edit (₱10,000)</option>
-            <option>Lyric Video (₱6,000)</option>
-            <option>Colorist (₱3,000)</option>
-            <option>VFX (₱7,000)</option>
-            <option>DOP / Cinematographer + Equipment (₱5,000)</option>
-            <option>Not sure yet</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-field">
-        <label for="f-message">Send the song, send the peg</label>
-        <textarea id="f-message" name="message" rows="4" placeholder="Track link, references, timeline, anything we should know." required></textarea>
-      </div>
-      <button type="submit" class="foot-btn">SEND MESSAGE →</button>
-      <div class="form-note">Submitting opens your email client with this filled in and sends it to <span id="contactEmailDisplay">hello@howaboutvisual.com</span>.</div>
-    </form>
+    <div class="connect-grid">
+      <a class="connect-card" href="https://www.instagram.com/knnthskiii/" target="_blank" rel="noopener">
+        <span class="connect-label">Instagram</span>
+        <span class="connect-handle">@knnthskiii</span>
+      </a>
+      <a class="connect-card" href="https://www.tiktok.com/@knnthskiiii" target="_blank" rel="noopener">
+        <span class="connect-label">TikTok</span>
+        <span class="connect-handle">@knnthskiiii</span>
+      </a>
+      <a class="connect-card" href="https://www.facebook.com/explore.visual" target="_blank" rel="noopener">
+        <span class="connect-label">Facebook — Page</span>
+        <span class="connect-handle">/explore.visual</span>
+      </a>
+      <a class="connect-card" href="https://www.facebook.com/knnthski" target="_blank" rel="noopener">
+        <span class="connect-label">Facebook — Personal</span>
+        <span class="connect-handle">/knnthski</span>
+      </a>
+      <a class="connect-card" href="mailto:knnthskii@gmail.com">
+        <span class="connect-label">Email</span>
+        <span class="connect-handle">knnthskii@gmail.com</span>
+      </a>
+      <a class="connect-card" href="mailto:knnthskiii@gmail.com">
+        <span class="connect-label">Email (alt)</span>
+        <span class="connect-handle">knnthskiii@gmail.com</span>
+      </a>
+    </div>
 
     <div class="foot-bottom">
       <span>HOW ABOUT VISUAL — MUSIC VIDEOS · LYRIC VIDEOS · DOP · EDITING · COLOR · VFX · VISUALS</span>
@@ -573,23 +564,6 @@
 </footer>
 
 <script>
-  // ---- swap this for your real inbox ----
-  const CONTACT_EMAIL = 'hello@howaboutvisual.com';
-  document.getElementById('contactEmailDisplay').textContent = CONTACT_EMAIL;
-
-  document.getElementById('contactForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    const name = document.getElementById('f-name').value;
-    const email = document.getElementById('f-email').value;
-    const pkg = document.getElementById('f-package').value;
-    const message = document.getElementById('f-message').value;
-    const subject = encodeURIComponent(`Project inquiry — ${pkg}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nInterested in: ${pkg}\n\n${message}`
-    );
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-  });
-
   // mobile nav
   const menuBtn = document.getElementById('menuBtn');
   const navList = document.getElementById('navList');
