@@ -212,7 +212,7 @@
     vertical-align:top;font-size:13.5px;font-weight:300;color:var(--off-white);
   }
   .shotlist tbody tr:last-child td{border-bottom:none;}
-  .shotlist tbody td a{border-bottom:1px solid var(--gray);}
+  .shotlist tbody td a{border-bottom:1px solid var(--gray);overflow-wrap:anywhere;}
   .shotlist tbody td a:hover{border-color:var(--white);color:var(--white);}
   .sl-code{font-family:var(--mono);color:var(--gray);font-size:12px;width:70px;}
   .sl-name{font-family:var(--display);font-size:19px;color:var(--white);width:220px;letter-spacing:.02em;}
@@ -258,8 +258,36 @@
     width:380px;
     scroll-snap-align:start;
   }
-  .video-frame{position:relative;width:100%;padding-top:56.25%;background:var(--near-black);}
+  .video-frame{position:relative;width:100%;padding-top:56.25%;background:var(--near-black);overflow:hidden;}
   .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .video-frame.skeleton{
+    background:linear-gradient(110deg,var(--near-black) 8%,#161616 18%,var(--near-black) 33%);
+    background-size:200% 100%;animation:shimmer 1.6s linear infinite;
+  }
+  @keyframes shimmer{to{background-position-x:-200%;}}
+  .video-thumb{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    filter:grayscale(1) contrast(1.05);opacity:0;transition:opacity .5s ease;
+    cursor:pointer;
+  }
+  .video-thumb.loaded{opacity:1;}
+  .play-btn{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:56px;height:56px;border-radius:50%;
+    background:rgba(0,0,0,.5);border:1px solid var(--white);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:.2s ease;backdrop-filter:blur(2px);
+  }
+  .play-btn::after{
+    content:"";width:0;height:0;margin-left:4px;
+    border-style:solid;border-width:8px 0 8px 14px;
+    border-color:transparent transparent transparent var(--white);
+    transition:border-color .2s ease;
+  }
+  .video-frame:hover .play-btn{background:var(--white);transform:translate(-50%,-50%) scale(1.08);}
+  .video-frame:hover .play-btn::after{border-color:transparent transparent transparent var(--black);}
+  .video-frame.playing .video-thumb,
+  .video-frame.playing .play-btn{display:none;}
   .video-label{
     padding:14px 16px;display:flex;justify-content:space-between;align-items:center;
     font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--gray);
@@ -365,12 +393,69 @@
     .car-arrow{display:none;}
   }
 
+  @media (max-width:380px){
+    .wrap{padding:0 16px;}
+    .hero{padding-top:96px;}
+    .hero-eyebrow{font-size:10px;letter-spacing:.16em;}
+    .ticker-track span{padding:0 18px;}
+    .reel{padding:76px 0;}
+    .reel-head{margin-bottom:40px;}
+    .card{padding:30px 22px;}
+    .foot-cta{font-size:clamp(26px,7vw,34px);}
+    .hero-recent-label{font-size:9px;padding:10px 12px;}
+  }
+
+  /* ---------- loader ---------- */
+  .loader{
+    position:fixed;inset:0;z-index:500;background:var(--black);
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  .loader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+  .loader-inner{text-align:center;}
+  .loader-rec{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--white);margin-bottom:16px;
+  }
+  .loader-rec .dot{width:7px;height:7px;border-radius:50%;background:var(--white);animation:pulse-line 1s ease-in-out infinite;}
+  .loader-tc{font-family:var(--mono);font-size:clamp(20px,4vw,28px);letter-spacing:.14em;color:var(--gray);}
+
+  /* ---------- custom cursor ---------- */
+  .cursor-dot,.cursor-ring{
+    position:fixed;top:0;left:0;border-radius:50%;
+    pointer-events:none;z-index:400;transform:translate(-50%,-50%);
+    mix-blend-mode:difference;
+  }
+  .cursor-dot{width:6px;height:6px;background:var(--white);}
+  .cursor-ring{
+    width:34px;height:34px;border:1px solid var(--white);
+    transition:width .2s ease,height .2s ease;
+  }
+  .cursor-ring.hover{width:58px;height:58px;}
+  body.custom-cursor-active,
+  body.custom-cursor-active a,
+  body.custom-cursor-active button,
+  body.custom-cursor-active .video-thumb{cursor:none;}
+  @media (max-width:860px),(pointer:coarse){
+    .cursor-dot,.cursor-ring{display:none !important;}
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important;transition:none !important;}
   }
 </style>
 </head>
 <body>
+
+<div class="loader" id="pageLoader">
+  <div class="loader-inner">
+    <div class="loader-rec"><span class="dot"></span>REC</div>
+    <div class="loader-tc" id="loaderTc">00:00:00:00</div>
+  </div>
+</div>
+
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
 
 <div class="ticker" id="top">
   <div class="ticker-track">
@@ -403,8 +488,9 @@
 
     <div class="hero-recent">
       <div class="hero-recent-label"><span>LATEST — DIRECTED · DOP · COLOR</span><span>NOW PLAYING</span></div>
-      <div class="video-frame">
-        <iframe src="https://www.youtube.com/embed/j-_aBP6CwSs" title="Recent work — Directed, DOP, Color" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="video-frame skeleton" data-video-id="j-_aBP6CwSs" data-title="Recent work — Directed, DOP, Color">
+        <img class="video-thumb" src="https://img.youtube.com/vi/j-_aBP6CwSs/hqdefault.jpg" alt="Recent work thumbnail">
+        <button class="play-btn" aria-label="Play recent work video"></button>
       </div>
     </div>
 
@@ -687,8 +773,9 @@
       const card = document.createElement('div');
       card.className = 'video-card';
       card.innerHTML = `
-        <div class="video-frame">
-          <iframe src="https://www.youtube.com/embed/${v.id}" title="${v.label}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="video-frame skeleton" data-video-id="${v.id}" data-title="${v.label}">
+          <img class="video-thumb" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.label} thumbnail">
+          <button class="play-btn" aria-label="Play ${v.label}"></button>
         </div>
         <div class="video-label"><span>${v.label}</span><span>${String(i+1).padStart(2,'0')}</span></div>`;
       grid.appendChild(card);
@@ -698,6 +785,35 @@
   buildGrid('grid-recent', videoSets.recent);
   buildGrid('grid-lyric', videoSets.lyric);
   buildGrid('grid-visual', videoSets.visual);
+
+  // click-to-play: swap thumbnail for an embedded iframe only on demand
+  function playVideoFrame(frame){
+    if(frame.classList.contains('playing')) return;
+    const id = frame.dataset.videoId;
+    const title = frame.dataset.title || 'Video';
+    frame.classList.add('playing');
+    frame.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0" title="${title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  }
+  document.addEventListener('click', (e)=>{
+    const frame = e.target.closest('.video-frame[data-video-id]');
+    if(frame) playVideoFrame(frame);
+  });
+
+  // fade thumbnails in once loaded + drop skeleton shimmer
+  function watchThumb(img){
+    const swap = ()=>{
+      img.classList.add('loaded');
+      const frame = img.closest('.video-frame');
+      if(frame) frame.classList.remove('skeleton');
+    };
+    if(img.complete) swap(); else img.addEventListener('load', swap, {once:true});
+  }
+  document.querySelectorAll('.video-thumb').forEach(watchThumb);
+  new MutationObserver((mutations)=>{
+    mutations.forEach(m=> m.addedNodes.forEach(n=>{
+      if(n.nodeType===1) n.querySelectorAll?.('.video-thumb').forEach(watchThumb);
+    }));
+  }).observe(document.body,{childList:true,subtree:true});
 
   // extra: OG CRY spotify link appended below the visualizers carousel
   const coverRow = document.createElement('div');
@@ -774,6 +890,55 @@
   }
 
   ['recent','directed','lyric','visual'].forEach(initCarousel);
+
+  // ---- intro loader ----
+  (function(){
+    const loader = document.getElementById('pageLoader');
+    const tc = document.getElementById('loaderTc');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduced){
+      loader.classList.add('hidden');
+      return;
+    }
+    let frame = 0;
+    const iv = setInterval(()=>{
+      frame += 3;
+      const f = frame % 30;
+      const s = Math.floor(frame / 30) % 60;
+      tc.textContent = `00:00:${String(s).padStart(2,'0')}:${String(f).padStart(2,'0')}`;
+    }, 30);
+    window.addEventListener('load', ()=>{
+      setTimeout(()=>{
+        clearInterval(iv);
+        loader.classList.add('hidden');
+      }, 650);
+    });
+    // safety fallback in case 'load' fires late
+    setTimeout(()=>{ clearInterval(iv); loader.classList.add('hidden'); }, 3000);
+  })();
+
+  // ---- custom cursor (desktop, fine pointer only) ----
+  (function(){
+    const isDesktop = window.matchMedia('(pointer: fine)').matches && window.innerWidth > 860;
+    if(!isDesktop) return;
+    document.body.classList.add('custom-cursor-active');
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx=0, my=0, rx=0, ry=0;
+    document.addEventListener('mousemove', (e)=>{
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx+'px'; dot.style.top = my+'px';
+    });
+    function loop(){
+      rx += (mx-rx)*0.16; ry += (my-ry)*0.16;
+      ring.style.left = rx+'px'; ring.style.top = ry+'px';
+      requestAnimationFrame(loop);
+    }
+    loop();
+    const hoverables = 'a, button, .video-frame, .tab-btn, .car-dot, input, select, textarea';
+    document.addEventListener('mouseover', (e)=>{ if(e.target.closest(hoverables)) ring.classList.add('hover'); });
+    document.addEventListener('mouseout', (e)=>{ if(e.target.closest(hoverables)) ring.classList.remove('hover'); });
+  })();
 </script>
 
 </body>
