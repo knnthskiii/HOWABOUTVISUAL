@@ -158,6 +158,33 @@
     animation:pulse-line 1.4s ease-in-out infinite;
   }
 
+  /* ---------- worked with ticker ---------- */
+  .worked-with{
+    display:flex;align-items:center;gap:24px;
+    border-bottom:1px solid var(--hairline);
+    padding:22px 24px;overflow:hidden;
+  }
+  .ww-label{
+    flex:0 0 auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;
+    color:var(--gray);padding-right:24px;border-right:1px solid var(--hairline);
+    white-space:nowrap;
+  }
+  .ww-viewport{flex:1 1 auto;overflow:hidden;}
+  .ww-track{
+    display:flex;align-items:center;gap:36px;white-space:nowrap;width:max-content;
+    animation:scroll-ww 22s linear infinite;
+  }
+  .ww-track span{
+    font-family:var(--display);font-size:clamp(15px,2.4vw,22px);
+    letter-spacing:.03em;color:var(--off-white);font-weight:400;
+  }
+  .ww-track .ww-dot{font-family:var(--mono);font-size:12px;color:var(--hairline-light);opacity:.4;}
+  .worked-with:hover .ww-track{animation-play-state:paused;}
+  @keyframes scroll-ww{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
   /* ---------- reel section heading ---------- */
   .reel{padding:120px 0;border-bottom:1px solid var(--hairline);}
   .reel-head{
@@ -403,6 +430,8 @@
     .card{padding:30px 22px;}
     .foot-cta{font-size:clamp(26px,7vw,34px);}
     .hero-recent-label{font-size:9px;padding:10px 12px;}
+    .worked-with{padding:16px;gap:14px;}
+    .ww-label{font-size:9px;padding-right:14px;}
   }
 
   /* ---------- loader ---------- */
@@ -502,6 +531,22 @@
   </div>
   <div class="scroll-cue"><div class="line"></div>SCROLL</div>
 </section>
+
+<div class="worked-with">
+  <div class="ww-label">WORKED WITH</div>
+  <div class="ww-viewport">
+    <div class="ww-track">
+      <span>CK YG</span><span class="ww-dot">•</span>
+      <span>OG CRY</span><span class="ww-dot">•</span>
+      <span>CK YG</span><span class="ww-dot">•</span>
+      <span>OG CRY</span><span class="ww-dot">•</span>
+      <span>CK YG</span><span class="ww-dot">•</span>
+      <span>OG CRY</span><span class="ww-dot">•</span>
+      <span>CK YG</span><span class="ww-dot">•</span>
+      <span>OG CRY</span><span class="ww-dot">•</span>
+    </div>
+  </div>
+</div>
 
 <section class="reel" id="rates">
   <div class="wrap">
