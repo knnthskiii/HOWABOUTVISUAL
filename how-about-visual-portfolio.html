@@ -74,8 +74,7 @@
   header{
     position:fixed;top:34px;left:0;right:0;
     z-index:190;
-    background:rgba(0,0,0,.86);
-    backdrop-filter:blur(6px);
+    background:rgba(0,0,0,.94);
     border-bottom:1px solid var(--hairline);
   }
   .nav-inner{
@@ -316,11 +315,14 @@
   }
   .video-frame{position:relative;width:100%;padding-top:56.25%;background:var(--near-black);overflow:hidden;}
   .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
-  .video-frame.skeleton{
-    background:linear-gradient(110deg,var(--near-black) 8%,#161616 18%,var(--near-black) 33%);
-    background-size:200% 100%;animation:shimmer 1.6s linear infinite;
+  .video-frame.skeleton::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(110deg, transparent 30%, rgba(255,255,255,.07) 50%, transparent 70%);
+    transform:translate3d(-100%,0,0);
+    animation:shimmer-sweep 1.5s ease-in-out infinite;
+    will-change:transform;
   }
-  @keyframes shimmer{to{background-position-x:-200%;}}
+  @keyframes shimmer-sweep{to{transform:translate3d(100%,0,0);}}
   .video-thumb{
     position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
     filter:grayscale(1) contrast(1.05);opacity:0;transition:opacity .5s ease;
@@ -504,8 +506,10 @@
   /* ---------- custom cursor ---------- */
   .cursor-dot,.cursor-ring{
     position:fixed;top:0;left:0;border-radius:50%;
-    pointer-events:none;z-index:400;transform:translate(-50%,-50%);
+    pointer-events:none;z-index:400;
     mix-blend-mode:difference;
+    will-change:transform;
+    backface-visibility:hidden;
   }
   .cursor-dot{width:6px;height:6px;background:var(--white);}
   .cursor-ring{
@@ -1075,20 +1079,22 @@
     document.body.classList.add('custom-cursor-active');
     const dot = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
-    let mx=0, my=0, rx=0, ry=0;
-    document.addEventListener('mousemove', (e)=>{
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx+'px'; dot.style.top = my+'px';
-    });
+    let mx=0, my=0, rx=0, ry=0, lastDx=null, lastDy=null;
+    document.addEventListener('mousemove', (e)=>{ mx = e.clientX; my = e.clientY; }, {passive:true});
     function loop(){
-      rx += (mx-rx)*0.16; ry += (my-ry)*0.16;
-      ring.style.left = rx+'px'; ring.style.top = ry+'px';
+      // dot follows instantly, ring eases — both via transform only (GPU compositing, no layout)
+      if(mx !== lastDx || my !== lastDy){
+        dot.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+        lastDx = mx; lastDy = my;
+      }
+      rx += (mx-rx)*0.18; ry += (my-ry)*0.18;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
       requestAnimationFrame(loop);
     }
-    loop();
+    requestAnimationFrame(loop);
     const hoverables = 'a, button, .video-frame, .tab-btn, .car-dot, input, select, textarea';
-    document.addEventListener('mouseover', (e)=>{ if(e.target.closest(hoverables)) ring.classList.add('hover'); });
-    document.addEventListener('mouseout', (e)=>{ if(e.target.closest(hoverables)) ring.classList.remove('hover'); });
+    document.addEventListener('mouseover', (e)=>{ if(e.target.closest(hoverables)) ring.classList.add('hover'); }, {passive:true});
+    document.addEventListener('mouseout', (e)=>{ if(e.target.closest(hoverables)) ring.classList.remove('hover'); }, {passive:true});
   })();
 
   // ---- scroll reveal ----
@@ -1117,13 +1123,20 @@
     function attachTilt(el){
       if(el.dataset.tiltBound) return;
       el.dataset.tiltBound = '1';
+      let pending = false, lastEvt = null;
       el.addEventListener('mousemove', (e)=>{
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width - 0.5;
-        const py = (e.clientY - r.top) / r.height - 0.5;
-        el.style.transform = `perspective(700px) rotateX(${(-py*5).toFixed(2)}deg) rotateY(${(px*5).toFixed(2)}deg) translateZ(0)`;
-      });
-      el.addEventListener('mouseleave', ()=>{ el.style.transform = ''; });
+        lastEvt = e;
+        if(pending) return;
+        pending = true;
+        requestAnimationFrame(()=>{
+          const r = el.getBoundingClientRect();
+          const px = (lastEvt.clientX - r.left) / r.width - 0.5;
+          const py = (lastEvt.clientY - r.top) / r.height - 0.5;
+          el.style.transform = `perspective(700px) rotateX(${(-py*5).toFixed(2)}deg) rotateY(${(px*5).toFixed(2)}deg) translateZ(0)`;
+          pending = false;
+        });
+      }, {passive:true});
+      el.addEventListener('mouseleave', ()=>{ el.style.transform = ''; }, {passive:true});
     }
     document.querySelectorAll('.tilt').forEach(attachTilt);
     new MutationObserver((muts)=>{
