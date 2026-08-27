@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HOW ABOUT VISUAL — Creative Production</title>
+<meta name="description" content="Creative production for artists and music projects — music videos, lyric videos, cinematography, editing, color grading, VFX, visualizers, and cover art.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="HOW ABOUT VISUAL — Creative Production">
+<meta property="og:description" content="Music videos, lyric videos, cinematography, color, VFX, and visualizers — built around the artist and the song.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HOW ABOUT VISUAL — Creative Production">
+<meta name="twitter:description" content="Music videos, lyric videos, cinematography, color, VFX, and visualizers — built around the artist and the song.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ccircle cx='50' cy='50' r='34' fill='none' stroke='%23fff' stroke-width='6'/%3E%3Ccircle cx='50' cy='50' r='11' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -204,6 +213,26 @@
     font-size:14px;color:var(--gray);margin-top:14px;max-width:540px;font-weight:300;line-height:1.7;
   }
 
+  /* ---------- scroll reveal ---------- */
+  .reveal{
+    opacity:0;transform:translateY(28px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+  .reveal-stagger.in-view > *{opacity:1;transform:translateY(0);}
+  .reveal-stagger > *{
+    opacity:0;transform:translateY(20px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal-stagger.in-view > *:nth-child(1){transition-delay:.05s;}
+  .reveal-stagger.in-view > *:nth-child(2){transition-delay:.12s;}
+  .reveal-stagger.in-view > *:nth-child(3){transition-delay:.19s;}
+  .reveal-stagger.in-view > *:nth-child(4){transition-delay:.26s;}
+  .reveal-stagger.in-view > *:nth-child(5){transition-delay:.33s;}
+
+  /* ---------- tilt hover (desktop only) ---------- */
+  .tilt{transition:transform .25s ease;will-change:transform;}
+
   /* ---------- rate cards ---------- */
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hairline);}
   .card{
@@ -353,6 +382,29 @@
   .cover-link a{border-bottom:1px solid var(--gray);}
   .cover-link a:hover{border-color:var(--white);color:var(--white);}
 
+  /* ---------- faq accordion ---------- */
+  .faq-list{border-top:1px solid var(--hairline);}
+  .faq-item{border-bottom:1px solid var(--hairline);}
+  .faq-q{
+    width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;
+    background:none;border:none;color:var(--white);cursor:pointer;
+    padding:24px 0;text-align:left;
+    font-family:var(--display);font-size:clamp(16px,2.4vw,21px);font-weight:400;letter-spacing:.01em;
+  }
+  .faq-icon{
+    font-family:var(--mono);font-size:20px;color:var(--gray);flex:0 0 auto;
+    transition:transform .3s ease;
+  }
+  .faq-q[aria-expanded="true"] .faq-icon{transform:rotate(45deg);}
+  .faq-a{
+    max-height:0;overflow:hidden;
+    transition:max-height .35s ease, padding .35s ease;
+  }
+  .faq-a p{
+    padding:0 0 24px;max-width:680px;
+    font-size:13.5px;line-height:1.75;color:var(--off-white);font-weight:300;
+  }
+
   /* ---------- approach ---------- */
   .approach-text{
     font-family:var(--display);font-weight:400;
@@ -476,6 +528,12 @@
 </head>
 <body>
 
+<noscript>
+  <div style="background:#000;color:#fff;font-family:monospace;padding:16px;text-align:center;font-size:12px;letter-spacing:.05em;">
+    This site works best with JavaScript enabled — video playback, the works carousel, and the contact form need it. Everything else is still readable below.
+  </div>
+</noscript>
+
 <div class="loader" id="pageLoader">
   <div class="loader-inner">
     <div class="loader-rec"><span class="dot"></span>REC</div>
@@ -532,7 +590,7 @@
   <div class="scroll-cue"><div class="line"></div>SCROLL</div>
 </section>
 
-<div class="worked-with">
+<div class="worked-with reveal">
   <div class="ww-label">WORKED WITH</div>
   <div class="ww-viewport">
     <div class="ww-track">
@@ -548,7 +606,7 @@
   </div>
 </div>
 
-<section class="reel" id="rates">
+<section class="reel reveal" id="rates">
   <div class="wrap">
     <div class="reel-head">
       <span class="reel-num">REEL 01</span>
@@ -556,8 +614,8 @@
     </div>
     <p class="reel-desc" style="margin-top:-40px;margin-bottom:50px;">Full production packages, shoot through final delivery.</p>
 
-    <div class="cards">
-      <div class="card">
+    <div class="cards reveal-stagger">
+      <div class="card tilt">
         <div class="card-top">
           <div class="card-name">Music Video<br>Shoot + Edit</div>
           <div class="card-price">₱10,000</div>
@@ -575,7 +633,7 @@
           <li>YouTube and social media-ready delivery</li>
         </ul>
       </div>
-      <div class="card">
+      <div class="card tilt">
         <div class="card-top">
           <div class="card-name">Lyric Video</div>
           <div class="card-price">₱6,000</div>
@@ -598,7 +656,7 @@
   </div>
 </section>
 
-<section class="reel" id="services">
+<section class="reel reveal" id="services">
   <div class="wrap">
     <div class="reel-head">
       <span class="reel-num">REEL 02</span>
@@ -648,7 +706,7 @@
   </div>
 </section>
 
-<section class="reel" id="works">
+<section class="reel reveal" id="works">
   <div class="wrap">
     <div class="reel-head">
       <span class="reel-num">REEL 03</span>
@@ -699,7 +757,7 @@
   </div>
 </section>
 
-<section class="reel" id="approach">
+<section class="reel reveal" id="approach">
   <div class="wrap">
     <div class="reel-head">
       <span class="reel-num">REEL 04</span>
@@ -710,7 +768,7 @@
   </div>
 </section>
 
-<section class="reel" id="socials">
+<section class="reel reveal" id="socials">
   <div class="wrap">
     <div class="reel-head">
       <span class="reel-num">REEL 05</span>
@@ -748,6 +806,54 @@
       </tbody>
     </table>
     <div class="card-note" style="margin-top:22px;">Tap any link to open it in a new tab.</div>
+  </div>
+</section>
+
+<section class="reel reveal" id="faq">
+  <div class="wrap">
+    <div class="reel-head">
+      <span class="reel-num">REEL 06</span>
+      <span class="reel-title">FAQ</span>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What affects the final price?</span><span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><p>Final pricing may vary based on project scope, complexity, schedule, locations, and production requirements.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Are there extra charges beyond the rate card?</span><span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><p>Travel, multiple locations, extended shooting hours, additional crew, special equipment, and extensive VFX may incur additional charges.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Can you shoot drone footage?</span><span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><p>Yes — drone shots are included when applicable under the DOP + Equipment rate. Drone use is subject to weather, location, airspace regulations, and applicable safety requirements.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What if my project needs heavy VFX or animation?</span><span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><p>Complex VFX, animation, and specialty production requirements will be assessed before final confirmation and may require a separate quotation.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>What should we agree on before production starts?</span><span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><p>Project deliverables, schedule, scope, and production requirements should be agreed upon before production begins.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          <span>Do rates ever change?</span><span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a"><p>Rates are effective as of the date on the rate card and are subject to change for future projects.</p></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -816,7 +922,7 @@
     const grid = document.getElementById(gridId);
     items.forEach((v,i)=>{
       const card = document.createElement('div');
-      card.className = 'video-card';
+      card.className = 'video-card tilt';
       card.innerHTML = `
         <div class="video-frame skeleton" data-video-id="${v.id}" data-title="${v.label}">
           <img class="video-thumb" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.label} thumbnail">
@@ -984,6 +1090,67 @@
     document.addEventListener('mouseover', (e)=>{ if(e.target.closest(hoverables)) ring.classList.add('hover'); });
     document.addEventListener('mouseout', (e)=>{ if(e.target.closest(hoverables)) ring.classList.remove('hover'); });
   })();
+
+  // ---- scroll reveal ----
+  (function(){
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const targets = document.querySelectorAll('.reveal, .reveal-stagger');
+    if(reduced || !('IntersectionObserver' in window)){
+      targets.forEach(t=>t.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
+    targets.forEach(t=>io.observe(t));
+  })();
+
+  // ---- tilt hover on cards (desktop only) ----
+  (function(){
+    const isDesktop = window.matchMedia('(pointer: fine)').matches && window.innerWidth > 860;
+    if(!isDesktop) return;
+    function attachTilt(el){
+      if(el.dataset.tiltBound) return;
+      el.dataset.tiltBound = '1';
+      el.addEventListener('mousemove', (e)=>{
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = `perspective(700px) rotateX(${(-py*5).toFixed(2)}deg) rotateY(${(px*5).toFixed(2)}deg) translateZ(0)`;
+      });
+      el.addEventListener('mouseleave', ()=>{ el.style.transform = ''; });
+    }
+    document.querySelectorAll('.tilt').forEach(attachTilt);
+    new MutationObserver((muts)=>{
+      muts.forEach(m=> m.addedNodes.forEach(n=>{
+        if(n.nodeType===1){
+          if(n.classList?.contains('tilt')) attachTilt(n);
+          n.querySelectorAll?.('.tilt').forEach(attachTilt);
+        }
+      }));
+    }).observe(document.body,{childList:true,subtree:true});
+  })();
+
+  // ---- FAQ accordion ----
+  document.querySelectorAll('.faq-q').forEach(btn=>{
+    const answer = btn.nextElementSibling;
+    btn.addEventListener('click', ()=>{
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq-q').forEach(b=>{
+        b.setAttribute('aria-expanded','false');
+        b.nextElementSibling.style.maxHeight = null;
+      });
+      if(!open){
+        btn.setAttribute('aria-expanded','true');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
 </script>
 
 </body>
