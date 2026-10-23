@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="text/javascript">(function(i,m,p,a,c,t){c.ire_o=p;c[p]=c[p]||function(){(c[p].a=c[p].a||[]).push(arguments)};t=a.createElement(m);var z=a.getElementsByTagName(m)[0];t.async=1;t.src=i;z.parentNode.insertBefore(t,z)})('https://utt.impactcdn.com/P-A7827875-f129-41be-8845-c69e6d0ae6e71.js','script','impactStat',document,window);impactStat('transformLinks');impactStat('trackImpression');
-  </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HOW ABOUT VISUAL — Creative Production</title>
@@ -155,8 +153,13 @@
   @keyframes pulse-line{0%,100%{opacity:.25;}50%{opacity:1;}}
 
   .hero-recent{
-    margin-top:46px;max-width:620px;border:1px solid var(--hairline);
+    margin-top:46px;max-width:620px;border:1px solid var(--hairline);overflow:hidden;
+    transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease;
   }
+  .hero-recent:hover{transform:translateY(-6px);border-color:#4da3ff;box-shadow:0 14px 42px rgba(25,112,220,.28),0 0 24px rgba(77,163,255,.16);}
+  .hero-recent .video-thumb{transition:opacity .5s ease,transform .7s cubic-bezier(.2,.7,.2,1),filter .5s ease;}
+  .hero-recent:hover .video-thumb{transform:scale(1.045);filter:grayscale(.35) contrast(1.08) saturate(1.18);}
+  .hero-recent:hover .video-track-title{ text-shadow:0 0 18px rgba(77,163,255,.45); }
   .hero-recent-label{
     display:flex;justify-content:space-between;align-items:center;
     padding:12px 16px;border-bottom:1px solid var(--hairline);
@@ -167,6 +170,7 @@
     content:"";width:6px;height:6px;border-radius:50%;background:var(--white);
     animation:pulse-line 1.4s ease-in-out infinite;
   }
+  .hero-recent-label .hero-trending{color:#4da3ff;text-shadow:0 0 14px rgba(77,163,255,.55);}
 
   /* ---------- worked with ticker ---------- */
   .worked-with{
@@ -238,8 +242,15 @@
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hairline);}
   .card{
     background:var(--black);padding:44px 38px;
-    display:flex;flex-direction:column;
+    display:flex;flex-direction:column;position:relative;z-index:0;
+    transition:transform .35s ease,background .35s ease,box-shadow .35s ease;
   }
+  .cards > .card:hover{transform:translateY(-7px);z-index:2;background:#101827;transition-delay:0s;box-shadow:0 16px 34px rgba(30,144,255,.2),0 0 0 1px rgba(77,163,255,.65);}
+  .cards > .card:hover .card-price{color:#75baff;text-shadow:0 0 16px rgba(77,163,255,.55);}
+  .card.featured{background:#101010;box-shadow:inset 0 3px 0 var(--white);}
+  .card-badge{margin-bottom:22px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--black);background:var(--white);padding:8px 10px;align-self:flex-start;}
+  .price-was{display:block;font-size:11px;color:var(--gray);font-weight:400;text-decoration:line-through;margin-bottom:3px;}
+  .bundle-highlight{width:100%;max-width:none;margin:16px 0 0;padding:24px 38px;background:var(--black);border:1px solid var(--hairline);border-left:4px solid #1e90ff;box-shadow:0 0 0 1px rgba(30,144,255,.14),inset 0 0 24px rgba(30,144,255,.05);color:var(--white);font-family:var(--mono);font-size:13px;letter-spacing:.12em;}
   .card-top{
     display:flex;justify-content:space-between;align-items:flex-start;
     margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--hairline);
@@ -254,6 +265,9 @@
   }
   .card li:last-child{border-bottom:none;}
   .card li::before{content:"—";color:var(--gray);flex-shrink:0;}
+  .card li.highlight-line{margin-top:14px;padding:12px 10px;background:var(--white);color:var(--black);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;border-bottom:none;}
+  .card li.highlight-line strong{margin-left:auto;font-size:15px;font-weight:800;letter-spacing:.08em;white-space:nowrap;}
+  .card li.highlight-line::before{color:var(--black);}
   .card-note{
     margin-top:22px;font-family:var(--mono);font-size:10.5px;color:var(--gray);letter-spacing:.03em;line-height:1.6;
   }
@@ -346,6 +360,8 @@
   }
   .video-frame:hover .play-btn{background:var(--white);transform:translate(-50%,-50%) scale(1.08);}
   .video-frame:hover .play-btn::after{border-color:transparent transparent transparent var(--black);}
+  .video-track-title{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:34px 16px 13px;background:linear-gradient(transparent,rgba(0,0,0,.92));font-family:var(--display);font-size:18px;letter-spacing:.02em;color:var(--white);pointer-events:none;}
+  .video-track-artist{display:block;margin-bottom:5px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gray);}
   .video-frame.playing .video-thumb,
   .video-frame.playing .play-btn{display:none;}
   .video-label{
@@ -552,8 +568,8 @@
 
 <div class="ticker" id="top">
   <div class="ticker-track">
-    <span>HOW ABOUT VISUAL</span><span>MUSIC VIDEOS</span><span>LYRIC VIDEOS</span><span>CINEMATOGRAPHY</span><span>COLOR</span><span>VFX</span><span>VISUALIZERS</span><span>EFFECTIVE 08.17.2026</span>
-    <span>HOW ABOUT VISUAL</span><span>MUSIC VIDEOS</span><span>LYRIC VIDEOS</span><span>CINEMATOGRAPHY</span><span>COLOR</span><span>VFX</span><span>VISUALIZERS</span><span>EFFECTIVE 08.17.2026</span>
+    <span>HOW ABOUT VISUAL</span><span>MUSIC VIDEOS</span><span>LYRIC VIDEOS</span><span>CINEMATOGRAPHY</span><span>COLOR</span><span>VFX</span><span>VISUALIZERS</span><span>EFFECTIVE 10.23.2026</span>
+    <span>HOW ABOUT VISUAL</span><span>MUSIC VIDEOS</span><span>LYRIC VIDEOS</span><span>CINEMATOGRAPHY</span><span>COLOR</span><span>VFX</span><span>VISUALIZERS</span><span>EFFECTIVE 10.23.2026</span>
   </div>
 </div>
 
@@ -580,15 +596,16 @@
     <p class="hero-sub">HOW ABOUT VISUAL provides creative production for artists and music projects — music videos, lyric videos, cinematography, editing, color grading, VFX, visualizers, and cover art. Every project is built around the artist, the music, and the release.</p>
 
     <div class="hero-recent">
-      <div class="hero-recent-label"><span>LATEST — DIRECTED · DOP · COLOR</span><span>NOW PLAYING</span></div>
-      <div class="video-frame skeleton" data-video-id="j-_aBP6CwSs" data-title="Recent work — Directed, DOP, Color">
-        <img class="video-thumb" src="https://img.youtube.com/vi/j-_aBP6CwSs/hqdefault.jpg" alt="Recent work thumbnail">
-        <button class="play-btn" aria-label="Play recent work video"></button>
+      <div class="hero-recent-label"><span class="hero-trending">TOP 65 MUSIC VIDEO TRENDING ON YOUTUBE</span><span>OFFICIAL LYRICS VIDEO</span></div>
+      <div class="video-frame skeleton" data-video-id="FwhCj9UC_sw" data-title="SUPAFLY — HATID SUNDO (OFFICIAL LYRICS VIDEO)">
+        <img class="video-thumb" src="https://img.youtube.com/vi/FwhCj9UC_sw/hqdefault.jpg" alt="SUPAFLY — HATID SUNDO lyrics video thumbnail">
+        <div class="video-track-title"><span class="video-track-artist">SUPAFLY</span>HATID SUNDO</div>
+        <button class="play-btn" aria-label="Play SUPAFLY — HATID SUNDO lyrics video"></button>
       </div>
     </div>
 
     <div class="hero-meta">
-      <div><strong>Rate Card</strong>Effective Aug 17, 2026</div>
+      <div><strong>Rate Card</strong>Effective Oct 23, 2026</div>
       <div><strong>Focus</strong>Music-related visual work</div>
       <div><strong>Process</strong>Send the song. Send the peg.</div>
     </div>
@@ -621,44 +638,56 @@
     <p class="reel-desc" style="margin-top:-40px;margin-bottom:50px;">Full production packages, shoot through final delivery.</p>
 
     <div class="cards reveal-stagger">
-      <div class="card tilt">
+      <div class="card tilt featured">
+        <div class="card-badge">FEATURED PACKAGE</div>
         <div class="card-top">
-          <div class="card-name">Music Video<br>Shoot + Edit</div>
-          <div class="card-price">₱10,000</div>
+          <div class="card-name">Full Music Video<br>Production</div>
+          <div class="card-price">₱12,000</div>
         </div>
         <ul>
           <li>Music video production shoot</li>
           <li>Cinematography and camera operation</li>
-          <li>Creative shot execution</li>
-          <li>Shot composition and camera movement</li>
-          <li>Basic lighting setup</li>
+          <li>Creative direction and shot execution</li>
           <li>Full video editing</li>
-          <li>Basic color correction and grading</li>
-          <li>Basic transitions and visual effects</li>
+          <li>Color correction and grading</li>
           <li>Final mastering and export</li>
-          <li>YouTube and social media-ready delivery</li>
+          <li class="highlight-line">Cover Art <strong>NORMALLY ₱1,500</strong></li>
         </ul>
       </div>
       <div class="card tilt">
         <div class="card-top">
-          <div class="card-name">Lyric Video</div>
+          <div class="card-name">Lyrics Video</div>
           <div class="card-price">₱6,000</div>
         </div>
         <ul>
-          <li>Full lyric video editing</li>
           <li>Lyric animation and typography</li>
-          <li>Beat and lyric synchronization</li>
-          <li>Creative text transitions</li>
-          <li>Motion graphics</li>
-          <li>Visual effects and overlays</li>
-          <li>Integration of provided background visuals/assets</li>
-          <li>Basic color grading</li>
+          <li>Motion graphics and visual effects</li>
           <li>Final export</li>
-          <li>YouTube and social media-ready delivery</li>
         </ul>
         <div class="card-note">Complex animation, custom illustration, 3D work, or extensive motion graphics may require a separate quotation.</div>
       </div>
+      <div class="card tilt">
+        <div class="card-top">
+          <div class="card-name">Visualizer</div>
+          <div class="card-price">₱3,000</div>
+        </div>
+        <ul>
+          <li>Custom visualizer production</li>
+          <li>Final export</li>
+        </ul>
+      </div>
+      <div class="card tilt">
+        <div class="card-top">
+          <div class="card-name">Cover Art</div>
+          <div class="card-price">₱1,500</div>
+        </div>
+        <ul>
+          <li>Custom cover artwork</li>
+          <li>Release-ready export</li>
+        </ul>
+      </div>
     </div>
+    <div class="bundle-highlight">BUNDLE — VISUALIZER + COVER ART · ₱3,000</div>
   </div>
 </section>
 
@@ -696,7 +725,7 @@
     </table>
 
     <div class="equip">
-      <div class="equip-title">EQUIPMENT PACKAGE — INCLUDED WITH DOP RATE</div>
+      <div class="equip-title">EQUIPMENT PACKAGE — OPTIONAL ADD-ON · INCLUDED WITH DOP RATE + FEATURED PACKAGE</div>
       <div class="equip-grid">
         <div>Panasonic Lumix S5II + 20–60mm lens</div>
         <div>Sony A7 IV + Sigma 24–70mm f/2.8 lens</div>
@@ -721,43 +750,43 @@
     <p class="reel-desc" style="margin-top:-40px;margin-bottom:44px;">These are only the projects currently on hand and do not represent the complete body of work.</p>
 
     <div class="tabs">
-      <button class="tab-btn active" data-tab="recent">Directed · Colored · DOP</button>
-      <button class="tab-btn" data-tab="directed">Music Videos Directed</button>
-      <button class="tab-btn" data-tab="lyric">Lyric Videos</button>
-      <button class="tab-btn" data-tab="visual">Visualizers &amp; Covers</button>
+      <button class="tab-btn active" data-tab="music">Music Video</button>
+      <button class="tab-btn" data-tab="lyrics">Lyrics Video</button>
+      <button class="tab-btn" data-tab="visualizer">Visualizer</button>
+      <button class="tab-btn" data-tab="cover">Cover Art</button>
     </div>
 
-    <div class="tab-panel active" id="panel-recent">
-      <div class="carousel" data-carousel="recent">
+    <div class="tab-panel active" id="panel-music">
+      <div class="carousel" data-carousel="music">
         <button class="car-arrow prev" aria-label="Previous video">‹</button>
-        <div class="car-viewport"><div class="car-track" id="grid-recent"></div></div>
+        <div class="car-viewport"><div class="car-track" id="grid-music"></div></div>
         <button class="car-arrow next" aria-label="Next video">›</button>
       </div>
-      <div class="car-dots" id="dots-recent"></div>
+      <div class="car-dots" id="dots-music"></div>
     </div>
-    <div class="tab-panel" id="panel-directed">
-      <div class="carousel" data-carousel="directed">
+    <div class="tab-panel" id="panel-lyrics">
+      <div class="carousel" data-carousel="lyrics">
         <button class="car-arrow prev" aria-label="Previous video">‹</button>
-        <div class="car-viewport"><div class="car-track" id="grid-directed"></div></div>
+        <div class="car-viewport"><div class="car-track" id="grid-lyrics"></div></div>
         <button class="car-arrow next" aria-label="Next video">›</button>
       </div>
-      <div class="car-dots" id="dots-directed"></div>
+      <div class="car-dots" id="dots-lyrics"></div>
     </div>
-    <div class="tab-panel" id="panel-lyric">
-      <div class="carousel" data-carousel="lyric">
+    <div class="tab-panel" id="panel-visualizer">
+      <div class="carousel" data-carousel="visualizer">
         <button class="car-arrow prev" aria-label="Previous video">‹</button>
-        <div class="car-viewport"><div class="car-track" id="grid-lyric"></div></div>
+        <div class="car-viewport"><div class="car-track" id="grid-visualizer"></div></div>
         <button class="car-arrow next" aria-label="Next video">›</button>
       </div>
-      <div class="car-dots" id="dots-lyric"></div>
+      <div class="car-dots" id="dots-visualizer"></div>
     </div>
-    <div class="tab-panel" id="panel-visual">
-      <div class="carousel" data-carousel="visual">
+    <div class="tab-panel" id="panel-cover">
+      <div class="carousel" data-carousel="cover">
         <button class="car-arrow prev" aria-label="Previous video">‹</button>
-        <div class="car-viewport"><div class="car-track" id="grid-visual"></div></div>
+        <div class="car-viewport"><div class="car-track" id="grid-cover"></div></div>
         <button class="car-arrow next" aria-label="Next video">›</button>
       </div>
-      <div class="car-dots" id="dots-visual"></div>
+      <div class="car-dots" id="dots-cover"></div>
       <div id="cover-link-slot"></div>
     </div>
   </div>
@@ -800,7 +829,7 @@
           <td><a href="https://www.facebook.com/explore.visual" target="_blank" rel="noopener">/explore.visual</a></td>
         </tr>
         <tr>
-          <td class="sl-code">FB²</td>
+          <td class="sl-code">FB</td>
           <td class="sl-name">Facebook (personal)</td>
           <td><a href="https://www.facebook.com/knnthski" target="_blank" rel="noopener">/knnthski</a></td>
         </tr>
@@ -872,7 +901,7 @@
 
     <div class="foot-bottom">
       <span>HOW ABOUT VISUAL — MUSIC VIDEOS · LYRIC VIDEOS · DOP · EDITING · COLOR · VFX · VISUALS</span>
-      <span>RATE CARD EFFECTIVE 08.17.2026</span>
+      <span>RATE CARD EFFECTIVE 10.23.2026</span>
     </div>
     <p class="foot-terms">Rates are specifically for music-related visual projects. Final pricing may vary based on project scope, complexity, schedule, locations, and production requirements. Travel, multiple locations, extended shooting hours, additional crew, special equipment, and extensive VFX may incur additional charges. Complex VFX, animation, and specialty production requirements will be assessed before final confirmation. Project deliverables, schedule, scope, and production requirements should be agreed upon before production. Rates are subject to change for future projects.</p>
   </div>
@@ -899,28 +928,38 @@
 
   // ---- video data (drop your links in here) ----
   const videoSets = {
-    directed: [
-      {id:'DKnNkqtGgzM', label:'Directed'},
-      {id:'I_Yt1MVmyLs', label:'Directed'},
-      {id:'A2dKCy56Uz0', label:'Directed'},
-      {id:'zBB2yG9x27A', label:'Directed'},
-      {id:'J3Nk0S7mwzA', label:'Directed'},
-      {id:'9PAWsR7hjt8', label:'Directed'},
-      {id:'qV-ySXJlNQA', label:'Directed'}
+    music: [
+      {id:'0TFX9Iais1o', artist:'SUPAFLY', title:'Salamat.', label:'Music Video'},
+      {id:'NysA4g3q6sA', artist:'SUPAFLY', title:'EAGLE EYE', label:'Music Video'},
+      {id:'9WC6mTngQlE', artist:'OG CRY', title:'GANGSTA PARTY ft. DR CHEN & GEEYO!', label:'Music Video'},
+      {id:'j-_aBP6CwSs', artist:'SUPAFLY', title:'LAST WARNING! ft. GENGOBOYZ', label:'Directed · DOP · Color'},
+      {id:'zBB2yG9x27A', artist:'OG CRY', title:'WESTSIDE LOVE 2 ft. c0kebaby torii', label:'Music Video'},
+      {id:'J3Nk0S7mwzA', artist:'OG CRY', title:'SNAKES ft. CRD3', label:'Music Video'},
+      {id:'qV-ySXJlNQA', artist:'OG CRY', title:'BUCKLE UP ft. CRD3', label:'Music Video'},
+      {id:'9PAWsR7hjt8', artist:'OG CRY', title:'SINALOA ft. c0kebaby torii, PJACKS, SHAKUR', label:'Music Video'},
+      {id:'A2dKCy56Uz0', artist:'CK YG', title:'Sin City ft. OLG Zak', label:'Music Video'},
+      {id:'I_Yt1MVmyLs', artist:'CK YG', title:'Di kita trip', label:'Music Video'},
+      {id:'DKnNkqtGgzM', artist:'CK YG', title:'Sakit mo na', label:'Music Video'}
     ],
-    recent: [
-      {id:'j-_aBP6CwSs', label:'Directed · DOP · Color'}
+    lyrics: [
+      {id:'0IBawPamDXs', artist:'CK YG', title:'Buti Di Ka Nanatili', label:'Lyrics Video'},
+      {id:'8JAHjPqyfDc', artist:'Kiddotin', title:'Sinungaling feat. Robledo Timido', label:'Lyrics Video'},
+      {id:'FwhCj9UC_sw', artist:'SUPAFLY', title:'HATID SUNDO', label:'Lyrics Video'},
+      {id:'FTowmKTZk80', artist:'NATEMAN', title:'PROBINSYANA feat. Robledo Timido & Kiddotin', label:'Lyrics Video'},
+      {id:'qRKMoxiYd5A', artist:'SUPAFLY', title:'INANG TINATANGKILIK', label:'Lyrics Video'},
+      {id:'Q-6Dx_wQguQ', artist:'SUPAFLY', title:'EAGLE EYE', label:'Lyrics Video'},
+      {id:'-yULMcrxNUA', artist:'OG CRY', title:'FIRST TIME ft. JP Bacallan & Shakur', label:'Lyrics Video'}
     ],
-    lyric: [
-      {id:'Q-6Dx_wQguQ', label:'Lyric Video'},
-      {id:'8JAHjPqyfDc', label:'Lyric Video'},
-      {id:'0IBawPamDXs', label:'Lyric Video'},
-      {id:'FTowmKTZk80', label:'Lyric Video'},
-      {id:'-yULMcrxNUA', label:'Lyric Video'}
+    visualizer: [
+      {id:'M5iev5fgvJw', artist:'c0kebaby torii', title:'Martyr Nyebera', label:'Visualizer'}
     ],
-    visual: [
-      {id:'M5iev5fgvJw', label:'Visualizer'},
-      {id:'sEmPDbWWZ7o', label:'CK YG — Cold November · Cover + Visualizer'}
+    cover: [
+      {id:'sEmPDbWWZ7o', artist:'CK YG', title:'Frenemies', label:'Cover Art'},
+      {id:'zBB2yG9x27A', artist:'OG CRY', title:'Westside Love', label:'Cover Art + Canvas Visualizer', image:'https://i.scdn.co/image/ab67616d00001e02d8aaee25fe8c1011b61912bb', spotify:'https://open.spotify.com/album/2bsssJsTCGetpd8EtZHw2k'},
+      {id:'zBB2yG9x27A', artist:'OG CRY', title:'RAGAZOOM', label:'Cover Art', image:'https://i.scdn.co/image/ab67616d00001e0200712568fe08780439e8aae3', spotify:'https://open.spotify.com/album/6mNiT5jO7QdQz60niAq0sN'},
+      {id:'', artist:'SUPAFLY', title:'Salamat.', label:'Cover Art', image:'https://i.scdn.co/image/ab67616d00001e02fd9d235c381d3c9beb36d653', spotify:'https://open.spotify.com/album/5Gb5JiWSGpTEm8x2mantSi'},
+      {id:'', artist:'SUPAFLY', title:'INANG TINATANGKILIK', label:'Cover Art', image:'https://i.scdn.co/image/ab67616d00001e022c6fd17b642eb76bb498bcf5', spotify:'https://open.spotify.com/album/27B4nIh2d50wFI1XdZfUO1'},
+      {id:'', artist:'SUPAFLY', title:'EAGLE EYE', label:'Cover Art', image:'https://i.scdn.co/image/ab67616d00001e02fa2bb2ec681ed56dacc69751', spotify:'https://open.spotify.com/album/5A6UpObManE2sEYESDPkI6'}
     ]
   };
 
@@ -929,22 +968,25 @@
     items.forEach((v,i)=>{
       const card = document.createElement('div');
       card.className = 'video-card tilt';
+      const thumbSrc = v.image || `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
       card.innerHTML = `
-        <div class="video-frame skeleton" data-video-id="${v.id}" data-title="${v.label}">
-          <img class="video-thumb" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.label} thumbnail">
-          <button class="play-btn" aria-label="Play ${v.label}"></button>
+        <div class="video-frame skeleton" data-video-id="${v.id}" data-spotify-url="${v.spotify || ''}" data-title="${v.artist ? `${v.artist} — ${v.title}` : (v.title || v.label)}">
+          <img class="video-thumb" src="${thumbSrc}" alt="${v.title || v.label} thumbnail">
+          ${v.title ? `<div class="video-track-title">${v.artist ? `<span class="video-track-artist">${v.artist}</span>` : ''}${v.title}</div>` : ''}
+          ${v.spotify ? `<a class="play-btn" href="${v.spotify}" target="_blank" rel="noopener" aria-label="Open ${v.title || v.label} on Spotify"></a>` : `<button class="play-btn" aria-label="Play ${v.title || v.label}"></button>`}
         </div>
         <div class="video-label"><span>${v.label}</span><span>${String(i+1).padStart(2,'0')}</span></div>`;
       grid.appendChild(card);
     });
   }
-  buildGrid('grid-directed', videoSets.directed);
-  buildGrid('grid-recent', videoSets.recent);
-  buildGrid('grid-lyric', videoSets.lyric);
-  buildGrid('grid-visual', videoSets.visual);
+  buildGrid('grid-music', videoSets.music);
+  buildGrid('grid-lyrics', videoSets.lyrics);
+  buildGrid('grid-visualizer', videoSets.visualizer);
+  buildGrid('grid-cover', videoSets.cover);
 
   // click-to-play: swap thumbnail for an embedded iframe only on demand
   function playVideoFrame(frame){
+    if(frame.dataset.spotifyUrl) return;
     if(frame.classList.contains('playing')) return;
     const id = frame.dataset.videoId;
     const title = frame.dataset.title || 'Video';
@@ -971,14 +1013,6 @@
       if(n.nodeType===1) n.querySelectorAll?.('.video-thumb').forEach(watchThumb);
     }));
   }).observe(document.body,{childList:true,subtree:true});
-
-  // extra: OG CRY spotify link appended below the visualizers carousel
-  const coverRow = document.createElement('div');
-  coverRow.innerHTML = `<div class="cover-link">
-    <span>OG CRY — Westside Love — Album Cover Art + Canvas Visualizer</span>
-    <a href="https://open.spotify.com/album/2bsssJsTCGetpd8EtZHw2k" target="_blank" rel="noopener">Listen on Spotify →</a>
-  </div>`;
-  document.getElementById('cover-link-slot').appendChild(coverRow);
 
   // ---- carousel behavior (arrows, dots, drag-scroll snap) ----
   function initCarousel(key){
@@ -1046,7 +1080,7 @@
     carouselUpdaters[key] = ()=>{ updateArrows(); updateActiveDot(); };
   }
 
-  ['recent','directed','lyric','visual'].forEach(initCarousel);
+  ['music','lyrics','visualizer','cover'].forEach(initCarousel);
 
   // ---- intro loader ----
   (function(){
