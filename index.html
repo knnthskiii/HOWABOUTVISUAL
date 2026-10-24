@@ -101,6 +101,9 @@
     transition:width .25s ease;
   }
   nav a:hover::after{width:100%;}
+  nav a.nav-quote{color:var(--white);border:1px solid var(--white);padding:9px 12px;}
+  nav a.nav-quote::after{display:none;}
+  nav a.nav-quote:hover{background:var(--white);color:var(--black);}
 
   .menu-btn{
     display:none;
@@ -436,6 +439,51 @@
   }
   .approach-cta b{color:var(--white);}
 
+  /* ---------- project inquiry ---------- */
+  .inquiry-intro{max-width:660px;margin-top:-38px;margin-bottom:42px;font-size:14px;line-height:1.7;color:var(--gray);font-weight:300;}
+  .inquiry-form{border-top:1px solid var(--hairline);}
+  .inquiry-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hairline);}
+  .inquiry-field{background:var(--black);padding:22px 20px;}
+  .inquiry-field.full{grid-column:1 / -1;}
+  .inquiry-field label{display:block;margin-bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--gray);}
+  .inquiry-field input,.inquiry-field select,.inquiry-field textarea{
+    width:100%;border:1px solid var(--hairline);border-radius:0;background:var(--near-black);color:var(--white);
+    padding:13px 14px;font:300 13px var(--body);outline:none;
+  }
+  .inquiry-field input:focus,.inquiry-field select:focus,.inquiry-field textarea:focus{border-color:var(--white);box-shadow:0 0 0 1px var(--white);}
+  .inquiry-field textarea{min-height:140px;resize:vertical;line-height:1.6;}
+  .budget-control{padding:4px 0 2px;}
+  .budget-output{display:block;margin-bottom:12px;color:var(--white);font:700 20px var(--mono);letter-spacing:.04em;}
+  .budget-range{width:100%;accent-color:var(--white);cursor:pointer;}
+  .budget-scale{display:flex;justify-content:space-between;margin-top:8px;color:var(--gray);font:10px var(--mono);letter-spacing:.04em;}
+  .budget-match{display:block;margin-top:12px;color:var(--gray);font:10px/1.5 var(--mono);letter-spacing:.04em;}
+  .budget-contact-popover{margin-top:14px;border:1px solid var(--white);padding:13px 14px;color:var(--white);font:10px/1.5 var(--mono);letter-spacing:.04em;}
+  .budget-contact-popover[hidden]{display:none;}
+  .budget-contact-popover strong{display:block;margin-bottom:4px;color:var(--white);}
+  .budget-contact-popover a{text-decoration:underline;text-underline-offset:3px;}
+  .location-control{display:flex;gap:8px;align-items:stretch;}
+  .location-control input{flex:1;min-width:0;}
+  .map-btn{flex:0 0 auto;border:1px solid var(--hairline);background:var(--near-black);color:var(--white);padding:0 14px;font:10px var(--mono);letter-spacing:.08em;cursor:pointer;transition:.2s ease;}
+  .map-btn:hover{background:var(--white);border-color:var(--white);color:var(--black);}
+  .service-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .service-option{position:relative;display:block;cursor:pointer;}
+  .service-option input{position:absolute;opacity:0;pointer-events:none;}
+  .service-option span{display:flex;align-items:center;min-height:48px;border:1px solid var(--hairline);padding:11px 13px;color:var(--off-white);font:11px/1.35 var(--mono);letter-spacing:.03em;transition:.2s ease;}
+  .service-option:hover span{border-color:var(--gray);color:var(--white);}
+  .service-option input:checked + span{background:var(--white);border-color:var(--white);color:var(--black);}
+  .service-option input:focus-visible + span{outline:1px solid var(--white);outline-offset:2px;}
+  .service-option:last-child{grid-column:1 / -1;}
+  .other-service-wrap{margin-top:14px;}
+  .other-service-wrap[hidden]{display:none;}
+  .inquiry-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding-top:22px;}
+  .inquiry-submit{border:1px solid var(--white);background:var(--white);color:var(--black);padding:15px 22px;font:700 11px var(--mono);letter-spacing:.12em;cursor:pointer;transition:.2s ease;}
+  .inquiry-submit:hover{background:var(--black);color:var(--white);}
+  .inquiry-note{font:10.5px/1.6 var(--mono);color:var(--gray);}
+  .inquiry-status{width:100%;font:11px/1.6 var(--mono);color:var(--off-white);}
+  .inquiry-total-field{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;}
+  .inquiry-total-copy{color:var(--gray);font:10px/1.5 var(--mono);letter-spacing:.04em;}
+  .inquiry-total-output{display:block;color:var(--white);font:700 24px var(--mono);letter-spacing:.04em;text-align:right;white-space:nowrap;}
+
   /* ---------- footer ---------- */
   footer{padding:80px 0 50px;}
   .foot-top{
@@ -583,6 +631,7 @@
         <li><a href="#works">Works</a></li>
         <li><a href="#approach">Approach</a></li>
         <li><a href="#socials">Socials</a></li>
+        <li><a class="nav-quote" href="#inquiry">Request a Quote</a></li>
       </ul>
     </nav>
   </div>
@@ -732,12 +781,12 @@
           <td class="sl-code">02</td>
           <td class="sl-name">VFX</td>
           <td>Compositing, motion tracking, object/element removal, screen replacement, visual enhancements, cleanup. Heavy VFX, 3D, or highly complex shots may require a separate quotation.</td>
-          <td class="sl-price">₱7,000</td>
+          <td class="sl-price">₱5,000</td>
         </tr>
         <tr>
           <td class="sl-code">03</td>
-          <td class="sl-name">DOP / Cinematographer<br>+ Equipment</td>
-          <td>Cinematography, camera operation, shot composition, gimbal and drone operation, on-set visual direction — includes use of the full equipment package below.</td>
+          <td class="sl-name">DOP<br>+ Equipment</td>
+          <td>DOP, camera operation, shot composition, gimbal and drone operation, on-set visual direction — includes use of the full equipment package below.</td>
           <td class="sl-price">₱5,000</td>
         </tr>
       </tbody>
@@ -863,10 +912,45 @@
   </div>
 </section>
 
-<section class="reel reveal" id="faq">
+<section class="reel reveal" id="inquiry">
   <div class="wrap">
     <div class="reel-head">
       <span class="reel-num">REEL 06</span>
+      <span class="reel-title">Project Inquiry</span>
+    </div>
+    <p class="inquiry-intro">Tell me what you’re building, what you need, and when you need it. I’ll review the details and reply with availability, scope, and a quote.</p>
+    <form class="inquiry-form" id="inquiryForm" action="mailto:knnthskii@gmail.com" method="post" enctype="text/plain">
+      <div class="inquiry-grid">
+        <div class="inquiry-field"><label for="inquiryName">Name / Artist Name *</label><input id="inquiryName" name="Name" type="text" autocomplete="name" required></div>
+        <div class="inquiry-field"><label for="inquiryEmail">Email *</label><input id="inquiryEmail" name="Email" type="email" autocomplete="email" required></div>
+        <div class="inquiry-field full"><label id="inquiryServiceLabel">Services * <span style="color:var(--gray);font-weight:400;letter-spacing:0;">Select all that apply</span></label><div class="service-options" id="inquiryService" role="group" aria-labelledby="inquiryServiceLabel">
+          <label class="service-option"><input type="checkbox" name="Service" value="Music Video"><span>Music Video</span></label>
+          <label class="service-option"><input type="checkbox" name="Service" value="Lyrics Video"><span>Lyrics Video</span></label>
+          <label class="service-option"><input type="checkbox" name="Service" value="Visualizer"><span>Visualizer</span></label>
+          <label class="service-option"><input type="checkbox" name="Service" value="Cover Art"><span>Cover Art</span></label>
+          <label class="service-option"><input type="checkbox" name="Service" value="Full Editing"><span>Full Editing</span></label>
+          <label class="service-option"><input type="checkbox" name="Service" value="Color"><span>Color</span></label>
+          <label class="service-option"><input type="checkbox" name="Service" value="VFX"><span>VFX</span></label>
+          <label class="service-option"><input type="checkbox" name="Service" value="DOP"><span>DOP</span></label>
+          <label class="service-option"><input type="checkbox" name="Service" value="Other"><span>Other</span></label>
+        </div><div class="other-service-wrap" id="otherServiceDetailsWrap" hidden><label for="otherServiceDetails">What service do you need? *</label><textarea id="otherServiceDetails" name="Other service details" placeholder="Please describe the service or deliverable you have in mind."></textarea></div></div>
+        <div class="inquiry-field full inquiry-total-field"><div><label for="serviceTotalOutput">Estimated Total</label><span class="inquiry-total-copy">Updates as you select services. Full Editing and Other services are quoted separately.</span></div><output class="inquiry-total-output" id="serviceTotalOutput" for="inquiryService">₱0</output></div>
+        <div class="inquiry-field full"><label for="inquiryBudget">Budget Range</label><div class="budget-control"><output class="budget-output" id="budgetOutput" for="inquiryBudget">₱1,000</output><input class="budget-range" id="inquiryBudget" name="Budget" type="range" min="1000" max="25000" step="500" value="1000"><div class="budget-scale"><span>₱1,000</span><span>₱25,000+</span></div><span class="budget-match" id="budgetMatch" aria-live="polite">Matching services will be selected automatically.</span><div class="budget-contact-popover" id="budgetContactNotice" role="alert" hidden><strong>BEYOND LISTED PRODUCTION RATES</strong>For custom or larger-scale production, contact <a href="mailto:knnthskii@gmail.com">knnthskii@gmail.com</a>.</div></div></div>
+        <div class="inquiry-field"><label for="inquiryShootDate">Shoot Date</label><input id="inquiryShootDate" name="Shoot date" type="date" aria-label="Shoot date"></div>
+        <div class="inquiry-field"><label for="inquiryLocation">Location</label><div class="location-control"><input id="inquiryLocation" name="Location" type="text" placeholder="City / shoot location"><button class="map-btn" id="openMaps" type="button">OPEN MAPS ↗</button></div></div>
+        <div class="inquiry-field"><label for="inquiryTargetDate">Target Release Date</label><input id="inquiryTargetDate" name="Target release date" type="date" aria-label="Target release date"></div>
+        <div class="inquiry-field"><label for="inquiryReference">Song, reference, or brief link</label><input id="inquiryReference" name="Reference link" type="url" placeholder="https://..."></div>
+        <div class="inquiry-field full"><label for="inquiryDetails">Project Details *</label><textarea id="inquiryDetails" name="Project details" placeholder="Tell me about the song, visual direction, deliverables, and anything else that would help." required></textarea></div>
+      </div>
+      <div class="inquiry-actions"><button class="inquiry-submit" type="submit">SEND INQUIRY →</button><span class="inquiry-note">This opens your email app with the inquiry details.</span><div class="inquiry-status" id="inquiryStatus" role="status" aria-live="polite"></div></div>
+    </form>
+  </div>
+</section>
+
+<section class="reel reveal" id="faq">
+  <div class="wrap">
+    <div class="reel-head">
+      <span class="reel-num">REEL 07</span>
       <span class="reel-title">FAQ</span>
     </div>
 
@@ -915,7 +999,7 @@
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-cta">Got a track that needs a visual identity?</div>
-      <a class="foot-btn" href="#socials">SEE CONTACT ↑</a>
+      <a class="foot-btn" href="#inquiry">REQUEST A QUOTE ↑</a>
     </div>
 
     <div class="foot-bottom">
@@ -1227,6 +1311,122 @@
         answer.style.maxHeight = answer.scrollHeight + 'px';
       }
     });
+  });
+
+  // ---- project inquiry mailto ----
+  const inquiryForm = document.getElementById('inquiryForm');
+  const locationInput = document.getElementById('inquiryLocation');
+  document.getElementById('openMaps').addEventListener('click', ()=>{
+    const query = locationInput.value.trim() || 'Philippines';
+    window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank', 'noopener');
+  });
+  const shootDateInput = document.getElementById('inquiryShootDate');
+  const targetDateInput = document.getElementById('inquiryTargetDate');
+  const updateTargetDateMinimum = ()=>{
+    if(!shootDateInput.value){
+      targetDateInput.removeAttribute('min');
+      targetDateInput.removeAttribute('title');
+      return;
+    }
+    const earliest = new Date(`${shootDateInput.value}T00:00:00`);
+    earliest.setDate(earliest.getDate() + 7);
+    const minimum = earliest.toISOString().slice(0,10);
+    targetDateInput.min = minimum;
+    targetDateInput.title = `Target release must be on or after ${minimum}`;
+    if(targetDateInput.value && targetDateInput.value < minimum) targetDateInput.value = minimum;
+  };
+  shootDateInput.addEventListener('change', updateTargetDateMinimum);
+  updateTargetDateMinimum();
+  const budgetInput = document.getElementById('inquiryBudget');
+  const budgetOutput = document.getElementById('budgetOutput');
+  const formatBudget = value => Number(value) >= 25000 ? '₱25,000+' : `₱${Number(value).toLocaleString('en-PH')}`;
+  const syncBudget = ()=>{ budgetOutput.textContent = formatBudget(budgetInput.value); };
+  budgetInput.addEventListener('input', syncBudget);
+  syncBudget();
+  const serviceInputs = Array.from(inquiryForm.querySelectorAll('input[name="Service"]'));
+  const otherInput = serviceInputs.find(input=>input.value === 'Other');
+  const otherDetails = document.getElementById('otherServiceDetails');
+  const otherDetailsWrap = document.getElementById('otherServiceDetailsWrap');
+  const serviceTotalOutput = document.getElementById('serviceTotalOutput');
+  const serviceRates = {
+    'Music Video': 12000,
+    'Lyrics Video': 6000,
+    'Visualizer': 3000,
+    'Cover Art': 1500,
+    'Full Editing': null,
+    'Color': 3000,
+    'VFX': 5000,
+    'DOP': 5000,
+    'Other': null
+  };
+  const formatTotal = value => `₱${Number(value).toLocaleString('en-PH')}`;
+  const syncServiceTotal = ()=>{
+    let hasCustomService = false;
+    const total = serviceInputs.reduce((sum, input)=>{
+      if(!input.checked) return sum;
+      if(serviceRates[input.value] === null){ hasCustomService = true; return sum; }
+      return sum + serviceRates[input.value];
+    }, 0);
+    serviceTotalOutput.textContent = hasCustomService ? (total ? `${formatTotal(total)} + custom` : 'Custom quote') : formatTotal(total);
+  };
+  const syncOtherDetails = ()=>{
+    const isOtherSelected = otherInput.checked;
+    otherDetailsWrap.hidden = !isOtherSelected;
+    otherDetails.required = isOtherSelected;
+    if(!isOtherSelected) otherDetails.value = '';
+  };
+  serviceInputs.forEach(input=>input.addEventListener('change', ()=>{
+    syncOtherDetails();
+    syncServiceTotal();
+  }));
+  const budgetServiceRanges = {
+    'Music Video': [10000, 12000],
+    'Lyrics Video': [6000, 6000],
+    'Visualizer': [1500, 3000],
+    'Cover Art': [1000, 1500],
+    'Color': [3000, 3000],
+    'VFX': [5000, 7000],
+    'DOP': [5000, 5000]
+  };
+  const budgetMatch = document.getElementById('budgetMatch');
+  const budgetContactNotice = document.getElementById('budgetContactNotice');
+  const syncServicesForBudget = ()=>{
+    const budget = Number(budgetInput.value);
+    const matched = [];
+    serviceInputs.forEach(input=>{
+      const range = budgetServiceRanges[input.value];
+      const matches = range && budget >= range[0] && budget <= range[1];
+      input.checked = Boolean(matches);
+      if(matches) matched.push(input.value);
+    });
+    syncOtherDetails();
+    syncServiceTotal();
+    budgetMatch.textContent = matched.length ? `Matching services: ${matched.join(' · ')}` : 'No listed service range matches this budget.';
+    budgetContactNotice.hidden = budget <= 12000;
+  };
+  budgetInput.addEventListener('input', syncServicesForBudget);
+  syncOtherDetails();
+  syncServiceTotal();
+  syncServicesForBudget();
+
+  inquiryForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const form = e.currentTarget;
+    const selectedServices = serviceInputs.filter(input=>input.checked);
+    const serviceErrorInput = serviceInputs[0];
+    if(selectedServices.length === 0){
+      serviceErrorInput.setCustomValidity('Please select at least one service.');
+      form.reportValidity();
+      return;
+    }
+    serviceErrorInput.setCustomValidity('');
+    if(!form.reportValidity()) return;
+    const data = new FormData(form);
+    const subject = `Project inquiry — ${data.get('Name')}`;
+    const body = [`Estimated total: ${serviceTotalOutput.textContent}`, ...Array.from(data.entries()).map(([key,value])=>`${key}: ${key === 'Budget' ? formatBudget(value) : value}`)].join('\\n\\n');
+    const status = document.getElementById('inquiryStatus');
+    status.textContent = 'Opening your email app…';
+    window.location.href = `mailto:knnthskii@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
 </script>
 
